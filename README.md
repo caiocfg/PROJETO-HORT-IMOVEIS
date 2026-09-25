@@ -20,6 +20,7 @@ Em vez de corrigir manualmente na folha de cálculo, implementei uma regra de tr
 Tratamento no pipeline ETL para correção de escala
 
 df['AREA_TERRENO'] = df['AREA_TERRENO'] / 10
+
 df['AREA_CONSTRUIDA'] = df['AREA_CONSTRUIDA'] / 10
 
 Impacto: A correção reestabeleceu a precisão matemática do painel, permitindo que os investidores simulem o VGV e a rentabilidade com base em dados fidedignos.
