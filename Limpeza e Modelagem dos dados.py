@@ -12,6 +12,9 @@ df.columns = df.columns.str.strip()
 df['QUARTOS'] = df['QUARTOS'].replace('NÃO SE APLICA', 0)
 df['SUITE'] = df['SUITE'].replace('NÃO SE APLICA', 0)
 
+# Substituir os bairros "INOÃ" por "CHACARAS DE INOÃ" erro muito comum.
+df['BAIRRO'] = df['BAIRRO'].replace('INOÃ', 'CHACARAS DE INOÃ')
+
 # Preencher os 6 nulos da coluna SUITE com 0
 df['SUITE'] = df['SUITE'].fillna(0)
 
