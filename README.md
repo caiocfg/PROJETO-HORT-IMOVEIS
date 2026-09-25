@@ -1,13 +1,26 @@
 # Análise de Oportunidades para Investidores Imobiliários em Maricá/RJ
-# Portfólio de Dados - Caio Gonçalves
+Bem-vindo ao repositório deste projeto de Análise de Dados focado no mercado imobiliário de Maricá/RJ.
 
-Projetos desenvolvidos durante minha transição da Engenharia Civil para a área de Dados.
+O Desafio: Transformar dados brutos de cadastros de imóveis em inteligência de negócio. Este projeto foi desenvolvido para guiar a tomada de decisão baseada em dados (data-driven) de investidores e construtores que buscam comprar terrenos e construir casas para venda.
+
+Através da exploração e estruturação dos dados locais, o projeto mapeia o comportamento do mercado e expõe KPIs estratégicos, respondendo a perguntas fundamentais para o sucesso do investimento com indicadores como:
+
+Preço médio de venda de acordo com a localização e características da propriedade.
+
+Configuração ideal para liquidez: cruzamento de dados sobre a quantidade de quartos e metragem quadrada que mais atraem compradores.
+
+Impacto de comodidades: como a presença de piscinas ou a localização em condomínio fechado influenciam no valor final e na velocidade de venda.
+
+Taxa de conversão/absorção: análise comparativa entre imóveis vendidos e disponíveis.
+
+Aliando visão analítica e conhecimento prático do setor de construção civil, este projeto traduz números em diretrizes claras para maximizar o retorno sobre o investimento (ROI).
 
 Tecnologias:
+- Excel
 - SQL
 - Power BI
 - Python
-- Git
+
 
 # Identificação e Correção de Anomalia nos Dados (Data Quality)
 O Cenário: Durante a fase de Análise Exploratória de Dados (EDA) e validação das métricas, foi detetada uma discrepância crítica no KPI de Valor Médio do Metro Quadrado (R$/m²), que apresentava valores muito abaixo do praticado no mercado imobiliário da região.
