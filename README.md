@@ -1,6 +1,9 @@
 # Análise de KPIs para Investidores Imobiliários em Maricá/RJ
 Bem-vindo ao repositório deste projeto de Análise de Dados focado no mercado imobiliário de Maricá/RJ.
 
+<img width="1441" height="808" alt="image" src="https://github.com/user-attachments/assets/84c6719f-a47f-4756-8d4e-892011ad2828" />
+
+
 Objetivo: Transformar dados brutos de cadastros de imóveis em ferramentas para tomada de decisão. Este projeto foi desenvolvido para guiar a tomada de decisão baseada em dados de investidores e construtores que buscam comprar terrenos e construir casas para venda/aluguel.
 
 Através da exploração e estruturação dos dados locais, o projeto mapeia o comportamento do mercado e expõe KPIs estratégicos, respondendo a perguntas fundamentais para o sucesso do investimento com indicadores como:
