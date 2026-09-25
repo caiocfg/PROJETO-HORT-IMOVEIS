@@ -17,7 +17,7 @@ O Diagnóstico: Ao aplicar o conhecimento de negócio e engenharia civil para in
 A Solução Aplicada:
 Em vez de corrigir manualmente na folha de cálculo, implementei uma regra de tratamento diretamente no pipeline de ETL em Python (Pandas) para garantir a reprodutibilidade. A transformação divide os vetores de área por 10 antes da criação das métricas financeiras calculadas:
 
-# Tratamento no pipeline ETL para correção de escala
+Tratamento no pipeline ETL para correção de escala
 df['AREA_TERRENO'] = df['AREA_TERRENO'] / 10
 df['AREA_CONSTRUIDA'] = df['AREA_CONSTRUIDA'] / 10
 
