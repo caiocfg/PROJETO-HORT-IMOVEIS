@@ -19,20 +19,19 @@ Tecnologias: Excel, SQL, Power BI e Python
 
 # Registro de Alterações - Histórico de ocorrências
 
-### Identificação e Correção de Anomalia nos Dados (Data Quality)
-O Cenário: Durante a fase de Análise Exploratória de Dados (EDA) e validação das métricas, foi detetada uma discrepância crítica no KPI de Valor Médio do Metro Quadrado (R$/m²), que apresentava valores muito abaixo do praticado no mercado imobiliário da região.
+### Troubleshooting de Localidade (Locale Clash) no Pipeline de Dados
+O Cenário: Durante a validação das métricas no Power BI, o KPI de Valor Médio do Metro Quadrado (R$/m²) apresentou distorções críticas. O Power BI estava lendo a área dos imóveis de forma superestimada (ex: um imóvel de 120m² era lido como 1200m²), o que derrubou artificialmente o ticket médio.
 
-O Diagnóstico: Ao aplicar o conhecimento de negócio e engenharia civil para inspecionar os dados brutos (ex: imóvel ID JA1574), identifiquei um erro de escala na base de origem. As colunas AREA_TERRENO e AREA_CONSTRUIDA estavam com os valores multiplicados por 10 (ex: uma casa de 120m² estava registada como 1200m²).
+O Diagnóstico (Causa Raiz): Após inspecionar a base original, verifiquei que os dados não possuíam erro de escala. O problema era um conflito de integração (Locale Clash). O Pandas (Python) estava exportando o CSV no padrão americano, utilizando o "ponto" para separar as casas decimais (ex: 120.0). Quando o motor do Power BI (configurado em PT-BR) importava o arquivo, ele interpretava esse ponto americano como um separador de milhar brasileiro, ignorando-o e transformando 120.0 em 1200.
 
-A Solução Aplicada:
-Em vez de corrigir manualmente na folha de cálculo, implementei uma regra de tratamento diretamente no pipeline de ETL em Python (Pandas) para garantir a reprodutibilidade. A transformação divide os vetores de área por 10 antes da criação das métricas financeiras calculadas:
+A Solução de Engenharia Aplicada: Em vez de realizar tratamentos matemáticos paliativos na base (como dividir a coluna por 10, o que corromperia o dado original para outras ferramentas), a solução foi atuar diretamente na serialização do pipeline ETL. Configurei o script Python para forçar o delimitador e as casas decimais para o padrão PT-BR no momento do output.
 
-Tratamento no pipeline ETL para correção de escala
+### Fix de Integração: Forçando delimitador (;) e decimal (,) no output para alinhar com o BI local
+dim_localizacao.to_csv('dim_localizacao.csv', index=False, sep=';', decimal=',')
 
-df['AREA_TERRENO'] = df['AREA_TERRENO'] / 10
+fato_ofertas.to_csv('fato_ofertas.csv', index=False, sep=';', decimal=',')
 
-df['AREA_CONSTRUIDA'] = df['AREA_CONSTRUIDA'] / 10
+Impacto: A correção restabeleceu a precisão da métrica (Ticket Médio real de R$ 4.270,00 / m²) sem adulterar os dados originais, garantindo que o dataset possa ser consumido com segurança por qualquer outra ferramenta do stack de dados.
 
-Impacto: A correção reestabeleceu a precisão matemática do painel, permitindo que os investidores simulem o VGV e a rentabilidade com base em dados corretos.
-O erro identificado poderia ser corrigido na planilha original, porém optou-se pela correção no código python para trabalhar o uso de ferramenta.
+O erro identificado poderia ser corrigido na planilha original, porém optou-se pela correção no código python para trabalhar o uso da ferramenta.
 Esse pensamento repetiu-se para algumas configurações identificáveis no código .py;
