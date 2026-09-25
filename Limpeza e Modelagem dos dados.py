@@ -15,6 +15,9 @@ df['SUITE'] = df['SUITE'].replace('NÃO SE APLICA', 0)
 # Substituir os bairros "INOÃ" por "CHACARAS DE INOÃ" erro muito comum.
 df['BAIRRO'] = df['BAIRRO'].replace('INOÃ', 'CHACARAS DE INOÃ')
 
+# Segundo: Forçar que todos os imóveis em CHACARAS DE INOÃ pertençam ao distrito 3_INOÃ
+df.loc[df['BAIRRO'] == 'CHACARAS DE INOÃ', 'DISTRITO'] = '3_INOÃ'
+
 # Preencher os 6 nulos da coluna SUITE com 0
 df['SUITE'] = df['SUITE'].fillna(0)
 
