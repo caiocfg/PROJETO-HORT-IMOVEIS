@@ -35,3 +35,4 @@ Impacto: A correção restabeleceu a precisão da métrica (Ticket Médio real d
 
 O erro identificado poderia ser corrigido na planilha original, porém optou-se pela correção no código python para trabalhar o uso da ferramenta.
 Esse pensamento repetiu-se para algumas configurações identificáveis no código .py;
+Optei pelo filtro nativo para manter a interatividade cruzada do relatório, mas em um cenário de Big Data, a arquitetura ideal seria transferir essa agregação para uma View no SQL visando ganho de performance
