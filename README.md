@@ -23,19 +23,19 @@ Tecnologias: Excel, SQL, Power BI e Python
 # Registro de Alterações - Histórico de ocorrências
 
 ### Troubleshooting de Localidade (Locale Clash) no Pipeline de Dados
-O Cenário: Durante a validação das métricas no Power BI, o KPI de Valor Médio do Metro Quadrado (R$/m²) apresentou distorções críticas. O Power BI estava lendo a área dos imóveis de forma superestimada (ex: um imóvel de 120m² era lido como 1200m²), o que derrubou artificialmente o ticket médio.
+Durante a validação das métricas no Power BI, o KPI de Valor Médio do Metro Quadrado (R$/m²) apresentou distorções críticas. O Power BI estava lendo a área dos imóveis de forma superestimada (ex: um imóvel de 120m² era lido como 1200m²), o que alterou artificialmente o ticket médio.
 
-O Diagnóstico (Causa Raiz): Após inspecionar a base original, verifiquei que os dados não possuíam erro de escala. O problema era um conflito de integração (Locale Clash). O Pandas (Python) estava exportando o CSV no padrão americano, utilizando o "ponto" para separar as casas decimais (ex: 120.0). Quando o motor do Power BI (configurado em PT-BR) importava o arquivo, ele interpretava esse ponto americano como um separador de milhar brasileiro, ignorando-o e transformando 120.0 em 1200.
+O Diagnóstico - Após inspecionar a base original, verifiquei que os dados não possuíam erro de escala. O problema era um conflito de integração (Locale Clash). O Python estava exportando o CSV no padrão americano, utilizando o "ponto" para separar as casas decimais (ex: 120.0). Quando o Power BI (configurado em PT-BR) importava o arquivo, ele interpretava esse ponto americano como um separador de milhar brasileiro, ignorando-o e transformando 120.0 em 1200.
 
-A Solução de Engenharia Aplicada: Em vez de realizar tratamentos matemáticos paliativos na base (como dividir a coluna por 10, o que corromperia o dado original para outras ferramentas), a solução foi atuar diretamente na serialização do pipeline ETL. Configurei o script Python para forçar o delimitador e as casas decimais para o padrão PT-BR no momento do output.
+A Solução - Em vez de realizar tratamentos matemáticos na base (como dividir a coluna por 10, o que corromperia o dado original para outras ferramentas), a solução foi atuar diretamente na serialização do pipeline ETL. Configurei o script Python para forçar o delimitador e as casas decimais para o padrão PT-BR no momento do output.
 
 ### Fix de Integração: Forçando delimitador (;) e decimal (,) no output para alinhar com o BI local
 dim_localizacao.to_csv('dim_localizacao.csv', index=False, sep=';', decimal=',')
 
 fato_ofertas.to_csv('fato_ofertas.csv', index=False, sep=';', decimal=',')
 
-Impacto: A correção restabeleceu a precisão da métrica (Ticket Médio real de R$ 4.270,00 / m²) sem adulterar os dados originais, garantindo que o dataset possa ser consumido com segurança por qualquer outra ferramenta do stack de dados.
+Impacto - A correção restabeleceu a precisão da métrica (Ticket Médio real de R$ 4.270,00 / m²) sem adulterar os dados originais, garantindo que o dataset possa ser consumido com segurança por qualquer outra ferramenta do stack de dados.
 
 O erro identificado poderia ser corrigido na planilha original, porém optou-se pela correção no código python para trabalhar o uso da ferramenta.
 Esse pensamento repetiu-se para algumas configurações identificáveis no código .py;
-Optei pelo filtro nativo para manter a interatividade cruzada do relatório, mas em um cenário de Big Data, a arquitetura ideal seria transferir essa agregação para uma View no SQL visando ganho de performance
+Optei pelo filtro nativo para manter a interatividade cruzada do relatório, mas em um cenário de Big Data, a arquitetura ideal seria transferir essa agregação para o SQL visando ganho de performance
